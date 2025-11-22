@@ -22,6 +22,7 @@ import {
   Facebook,
   Play,
   X,
+  Sparkles,
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
@@ -89,7 +90,7 @@ export default function Home() {
         }`}
       >
         <div className="font-bold text-xl flex items-center gap-2">
-          <MapPin className="w-5 h-5 text-[#A0563F]" /> Nusantara Atlas
+          <MapPin className="w-5 h-5 text-[#A0563F]" /> Nusantara Cultural Atlas
         </div>
         <div className="flex gap-6 text-sm font-medium">
           {/* UPDATE: Menggunakan Link Next.js */}
@@ -345,8 +346,9 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
               {/* Brand Section */}
               <div className="md:col-span-4">
-                <div className="flex items-center gap-2 text-2xl font-serif font-bold mb-6">
-                  <MapPin className="w-8 h-8 text-[#A0563F]" /> Nusantara Atlas
+                <div className="flex items-center gap-2 text-xl font-serif font-bold mb-6">
+                  <MapPin className="w-8 h-8 text-[#A0563F]" /> Nusantara
+                  Cultural Atlas
                 </div>
                 <p className="text-white/60 leading-relaxed mb-8">
                   Platform digital yang didedikasikan untuk mendokumentasikan,
@@ -457,11 +459,89 @@ export default function Home() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <AIChatFloating />
     </main>
   );
 }
 
 // --- COMPONENTS HELPER ---
+
+function AIChatFloating() {
+  const [isHovered, setIsHovered] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(true);
+
+  // Hilangkan tooltip otomatis setelah 5 detik agar tidak mengganggu
+  useEffect(() => {
+    const timer = setTimeout(() => setShowTooltip(false), 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="fixed bottom-8 right-8 z-[999] flex flex-col items-end gap-2">
+      {/* 1. TOOLTIP BUBBLE (Sapaan) */}
+      <AnimatePresence>
+        {(showTooltip || isHovered) && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.8 }}
+            className="bg-white px-4 py-2 rounded-2xl rounded-br-none shadow-xl border border-[#A0563F]/10 mb-2 relative max-w-[200px]"
+          >
+            <p className="text-sm font-bold text-[#2C2420] flex items-center gap-1">
+              Halo! Ada yang bisa dibantu?{" "}
+              <Sparkles size={14} className="text-yellow-500 fill-yellow-500" />
+            </p>
+            {/* Panah bubble */}
+            <div className="absolute -bottom-2 right-4 w-4 h-4 bg-white transform rotate-45 border-r border-b border-[#A0563F]/10"></div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 2. AVATAR TOMBOL UTAMA */}
+      <motion.button
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={() => alert("Fitur Chat AI akan segera hadir! 🤖")} // Nanti diganti fungsi buka chat
+        // Animasi Masuk
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ type: "spring", stiffness: 260, damping: 20 }}
+        className="relative group w-16 h-16 md:w-20 md:h-20"
+      >
+        {/* Animasi 'Bernapas' / Floating Naik Turun */}
+        <motion.div
+          animate={{ y: [0, -8, 0] }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="w-full h-full"
+        >
+          {/* Lingkaran Background & Glow */}
+          <div className="absolute inset-0 bg-[#FFFF] rounded-full shadow-2xl group-hover:scale-110 transition-transform duration-300 flex items-center justify-center overflow-hidden border-2 border-white">
+            {/* Ilustrasi Robot 2D Lucu (DiceBear Bottts) */}
+            <img
+              src="/images/bot.png"
+              alt="AI Assistant"
+              className="w-[300%] h-[300%] object-contain"
+            />
+
+            {/* Efek Shine/Kilau */}
+            <div className="absolute top-0 left-0 w-full h-1/2 bg-white opacity-10 rounded-full blur-sm"></div>
+          </div>
+
+          {/* Badge Notifikasi Merah (Opsional) */}
+          <span className="absolute top-0 right-0 flex h-4 w-4">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500 border-2 border-white"></span>
+          </span>
+        </motion.div>
+      </motion.button>
+    </div>
+  );
+}
 
 function FeatureCard({ colSpan, icon, title, desc, color, textColor }: any) {
   return (

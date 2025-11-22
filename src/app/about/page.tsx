@@ -27,7 +27,7 @@ const TEAM_MEMBERS = [
   {
     name: "Muhammad Rafi Rizkyarto",
     role: "Project Manager & Research",
-    imageSrc: "/images/team/rafi.jpg", // Ganti dengan file yang sesuai
+    imageSrc: "/images/rafi.png", // Ganti dengan file yang sesuai
     color: "bg-green-50",
   },
   {
@@ -39,7 +39,7 @@ const TEAM_MEMBERS = [
   {
     name: "Najwa Febrianti Azzahra",
     role: "Content Specialist",
-    imageSrc: "/images/team/najwa.jpg", // Ganti dengan file yang sesuai
+    imageSrc: "/images/najwa.png", // Ganti dengan file yang sesuai
     color: "bg-pink-50",
   },
   {
